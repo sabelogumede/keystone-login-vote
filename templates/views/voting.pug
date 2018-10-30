@@ -1,0 +1,39 @@
+extends ../layouts/default
+
+block intro
+	.container
+		h1 Vote
+		
+block content
+	.container
+		if enquirySubmitted
+			h3 Thanks you for Voting.
+		else
+			.row: .col-sm-8.col-md-6
+				form(method='post')
+					input(type='hidden', name='action', value='voting')
+					.form-group(class=validationErrors.organizationType ? 'has-error' : null)
+						label Choose Organization?
+						select(name='organizationType').form-control
+							option(value='') (select company)
+							each type in organizationTypes
+								option(value=type.value, selected=formData.organizationType== type.value)= type.label
+
+					.form-group(class=validationErrors.name ? 'has-error' : null)
+						label Individual Name
+						input(type='text', name='name.full', value=formData['name.full']).form-control
+					h4 Give Three reasons why you are voting for them 
+					.form-group(class=validationErrors.reasonOne ? 'has-error' : null)
+						label Reason One
+						textarea(name='reasonOne', placeholder='1st reason...' rows=2).form-control= formData.reasonOne
+
+					.form-group(class=validationErrors.reasonTwo ? 'has-error' : null)
+						label Reason Two
+						textarea(name='reasonTwo', placeholder='2nd reason...' rows=2).form-control= formData.reasonTwo
+
+					.form-group(class=validationErrors.reasonThree ? 'has-error' : null)
+						label Reason Three
+						textarea(name='reasonThree', placeholder='3rd reason...' rows=2).form-control= formData.reasonThree
+
+					.form-actions
+						button(type='submit').btn.btn-primary Send
